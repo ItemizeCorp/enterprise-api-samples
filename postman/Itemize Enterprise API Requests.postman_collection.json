@@ -1,0 +1,254 @@
+{
+	"variables": [],
+	"info": {
+		"name": "Itemize Enterprise API Requests",
+		"_postman_id": "b3684504-769e-adf6-506c-1cd5eb05a7f8",
+		"description": "",
+		"schema": "https://schema.getpostman.com/json/collection/v2.0.0/collection.json"
+	},
+	"item": [
+		{
+			"name": "GET /accounts",
+			"request": {
+				"url": "{{url}}/accounts/{{accountid}}",
+				"method": "GET",
+				"header": [
+					{
+						"key": "Authorization",
+						"value": "Basic ",
+						"description": ""
+					}
+				],
+				"body": {
+					"mode": "formdata",
+					"formdata": [
+						{
+							"key": "metadata",
+							"value": "{\"format\":\"image/jpeg\"}",
+							"type": "text"
+						},
+						{
+							"key": "document",
+							"value": "",
+							"type": "file"
+						}
+					]
+				},
+				"description": "Retrieve an enterprise accout"
+			},
+			"response": []
+		},
+		{
+			"name": "PUT /accounts/{ACCOUNT_ID}",
+			"request": {
+				"url": "{{url}}/accounts/{{accountid}}",
+				"method": "PUT",
+				"header": [
+					{
+						"key": "Content-Type",
+						"value": "application/json",
+						"description": ""
+					},
+					{
+						"key": "Authorization",
+						"value": "Basic ",
+						"description": ""
+					}
+				],
+				"body": {
+					"mode": "raw",
+					"raw": "{\n    \"primary_contact\":\"Updated Contact Name\",\n    \"email_address\":\"Updated Email Address\"\n}"
+				},
+				"description": "Updates the client's primary contact and/or email address"
+			},
+			"response": []
+		},
+		{
+			"name": "POST /webhooks",
+			"event": [
+				{
+					"listen": "test",
+					"script": {
+						"type": "text/javascript",
+						"exec": [
+							"var data = JSON.parse(responseBody);\r",
+							"postman.setEnvironmentVariable(\"webhookid\", data[0].id);"
+						]
+					}
+				}
+			],
+			"request": {
+				"url": "{{url}}/accounts/{{accountid}}/webhooks",
+				"method": "POST",
+				"header": [
+					{
+						"key": "Content-Type",
+						"value": "application/json",
+						"description": ""
+					},
+					{
+						"key": "Authorization",
+						"value": "Basic ",
+						"description": ""
+					}
+				],
+				"body": {
+					"mode": "raw",
+					"raw": "{\n    \"url\":\"Webhook URL\",\n    \"token\":\"This should be encrypted\"\n}"
+				},
+				"description": "Create a webhook callback URL"
+			},
+			"response": []
+		},
+		{
+			"name": "GET /webhooks",
+			"request": {
+				"url": "{{url}}/accounts/{{accountid}}/webhooks",
+				"method": "GET",
+				"header": [
+					{
+						"key": "Authorization",
+						"value": "Basic ",
+						"description": ""
+					}
+				],
+				"body": {},
+				"description": "Retrieves all registered callback URLs for an account"
+			},
+			"response": []
+		},
+		{
+			"name": "GET /webhooks/{WEBHOOK_ID}",
+			"request": {
+				"url": "{{url}}/accounts/{{accountid}}/webhooks/{{webhookid}}",
+				"method": "GET",
+				"header": [
+					{
+						"key": "Authorization",
+						"value": "Basic ",
+						"description": ""
+					}
+				],
+				"body": {},
+				"description": "Retrieves a registered callback URL for an account"
+			},
+			"response": []
+		},
+		{
+			"name": "POST /documents",
+			"event": [
+				{
+					"listen": "test",
+					"script": {
+						"type": "text/javascript",
+						"exec": [
+							"var data = JSON.parse(responseBody);\r",
+							"postman.setEnvironmentVariable(\"guid\", data.id);"
+						]
+					}
+				}
+			],
+			"request": {
+				"url": "{{url}}/accounts/{{accountid}}/documents",
+				"method": "POST",
+				"header": [
+					{
+						"key": "Authorization",
+						"value": "Basic ",
+						"description": ""
+					}
+				],
+				"body": {
+					"mode": "formdata",
+					"formdata": [
+						{
+							"key": "metadata",
+							"value": "{\"format\":\"image/jpeg\"}",
+							"type": "text"
+						},
+						{
+							"key": "document",
+							"type": "file",
+							"src": "tampaairport.jpeg"
+						}
+					]
+				},
+				"description": "Upload a receipt of one of the following formats:\n    image/jpeg,\n    image/png,\n    appliation/pdf,\n    text/plain,\n    text/html\n"
+			},
+			"response": []
+		},
+		{
+			"name": "GET /documents/{DOC_ID}",
+			"request": {
+				"url": "{{url}}/accounts/{{accountid}}/documents/{{guid}}",
+				"method": "GET",
+				"header": [
+					{
+						"key": "Authorization",
+						"value": "Basic ",
+						"description": ""
+					}
+				],
+				"body": {
+					"mode": "formdata",
+					"formdata": [
+						{
+							"key": "metadata",
+							"value": "{\"format\":\"image/jpeg\", \"client_id\":\"sam-test-4567gnwjkrfv\", \"client_country_id\":1}",
+							"type": "text"
+						},
+						{
+							"key": "document",
+							"value": "",
+							"type": "file"
+						}
+					]
+				},
+				"description": "Retrieve the extracted data set for an uploaded receipt"
+			},
+			"response": []
+		},
+		{
+			"name": "PUT /webhooks/{WEBHOOK_ID}",
+			"request": {
+				"url": "{{url}}/accounts/{{accountid}}/webhooks/{{webhookid}}",
+				"method": "PUT",
+				"header": [
+					{
+						"key": "Content-Type",
+						"value": "application/json",
+						"description": ""
+					},
+					{
+						"key": "Authorization",
+						"value": "Basic ",
+						"description": ""
+					}
+				],
+				"body": {
+					"mode": "raw",
+					"raw": "{\n    \"url\":\"Updated Webhook URL\",\n    \"token\":\"This should be encrypted and updated\"\n}"
+				},
+				"description": "Updates a registered callback URL"
+			},
+			"response": []
+		},
+		{
+			"name": "DELETE /webhooks/{WEBHOOK_ID}",
+			"request": {
+				"url": "{{url}}/accounts/{{accountid}}/webhooks/{{webhookid}}",
+				"method": "DELETE",
+				"header": [
+					{
+						"key": "Authorization",
+						"value": "Basic ",
+						"description": ""
+					}
+				],
+				"body": {},
+				"description": "Delete a registered callback URL"
+			},
+			"response": []
+		}
+	]
+}
