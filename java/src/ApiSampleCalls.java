@@ -17,7 +17,7 @@ public class ApiSampleCalls {
 	private static final String API_TOKEN = "";
 
 	private static String createBasicAuthHeader() {
-		byte[] encodedAuth = Base64.getEncoder().encode(API_TOKEN.getBytes(StandardCharsets.UTF_8));
+		byte[] encodedAuth = Base64.getEncoder().encode((":" + API_TOKEN).getBytes(StandardCharsets.UTF_8));
 		return "Basic " + new String(encodedAuth);
 	}
 
